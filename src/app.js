@@ -3,6 +3,8 @@ import bodyParser from "body-parser";
 import { connectDB } from "./db.js";
 import {PORT} from "./cofig.js";
 import userRoute from "./routes/userRoute.js";
+import categoryRoute from "./routes/category.Routes.js";
+import productRoute from "./routes/productRoute.js";
 
 
 
@@ -18,6 +20,8 @@ app.get("/", (req, res)=>{
 });
 //ruta usuario
 app.use("/api/user", userRoute);
+app.use("/api/product", productRoute);
+app.use("/api/category",categoryRoute);
 
 //iniciar servidor
 app.listen(PORT, ()=>{
