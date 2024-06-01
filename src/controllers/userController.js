@@ -41,14 +41,14 @@ export const update = async (req, res) => {
     try {
         const id = req.params.id;
         
-        // Buscar si el usuario existe por ID
+        // Buscar si usuario existe por ID
         const userExist = await User.findOne({ _id: id });
         
         if (!userExist) {
             return res.status(404).json({ message: "User not found" });
         }
         
-        // Actualizar el usuario
+        // Actualizar usuario
         const updateUser = await User.findByIdAndUpdate(id, req.body, { new: true });
         
         res.status(200).json(updateUser);
@@ -68,10 +68,30 @@ export const deleteUser = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
         
-        // Eliminar el usuario
+        // Eliminar usuario
         await User.findByIdAndDelete(id);
         res.status(200).json({ message: "User deleted successfully" });
     } catch (error) {
         res.status(500).json({ error: "Internal server error" });
     }
 };
+export const validate = async (req, res) => {
+    try {
+      const userFound = await User.findOne({ email: req.body.email });
+      if (!userFound) {
+        res
+          .status(400)
+          .json({ message: "Incorrect email and/or password" });
+      }
+      if (bcrypt.compareSync(req.body.password, userFound.password)) {
+        res.status(200).json({ message: "Valid Login" });
+      } else {
+        res
+          .status(400)
+          .json({ message: "Incorrect email and/or password" });
+        return;
+      }
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };

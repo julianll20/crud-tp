@@ -5,7 +5,7 @@ export const isGoodPassword = value => {
 
   const password = "MyPassword123";
   if (isGoodPassword(password)) {
-    console.log("La contraseña es valida.");
+    console.log("The password is valid.");
   } else {
-    console.log(".");
+    console.log("The password is invalid.");
   }
